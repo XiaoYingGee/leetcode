@@ -43,14 +43,7 @@ public class ZeroEvenOdd {
     public void odd (IntConsumer printNumber) throws InterruptedException {
         printNumber.accept(++currentIndex);
     }
-
-    private static class IntConsumer {
-
-        void accept (int i) {
-            System.out.println(i);
-        }
-    }
-
+    
     private static volatile int currentIndex = 0;
 
     public static void main (String[] args) {
