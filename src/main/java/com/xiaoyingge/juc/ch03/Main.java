@@ -9,7 +9,7 @@ public class Main {
 
     public static void main (String[] args) {
 
-        ZeroEvenOdd2 zeroEvenOdd2 = new ZeroEvenOdd2(10);
+        ZeroEvenOdd2 zeroEvenOdd2 = new ZeroEvenOdd2(3);
         IntConsumer consumer = new IntConsumer();
         Thread a = new Thread(() -> {
             try {

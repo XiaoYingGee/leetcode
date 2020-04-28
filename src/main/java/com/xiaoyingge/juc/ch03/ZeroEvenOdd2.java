@@ -30,12 +30,10 @@ public class ZeroEvenOdd2 {
 
     private volatile boolean three = false;
 
-    private Object object = new Object();
-
     public void zero (IntConsumer printNumber) throws InterruptedException {
         for (int i = 0; i < n; i++) {
             while (!one) {
-
+                Thread.yield();
             }
             printNumber.accept(0);
             if ((i & 1) == 0) {
@@ -50,9 +48,9 @@ public class ZeroEvenOdd2 {
     }
 
     public void even (IntConsumer printNumber) throws InterruptedException {
-        for (int i = 0; i < n / 2; i++) {
+        for (int i = 0; i < (n + 1) / 2; i++) {
             while (!two) {
-
+                Thread.yield();
             }
             printNumber.accept(i * 2 + 1);
             one = true;
@@ -63,7 +61,7 @@ public class ZeroEvenOdd2 {
     public void odd (IntConsumer printNumber) throws InterruptedException {
         for (int i = 0; i < n / 2; i++) {
             while (!three) {
-
+                Thread.yield();
             }
             printNumber.accept((i + 1) * 2);
             one = true;
