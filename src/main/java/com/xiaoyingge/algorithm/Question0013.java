@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 解析罗马数字
+ *
  * @author xiaoyinggee
  * Created on 2020-10-29
  */
 public class Question0013 {
     public static int romanToInt(String s) {
+        //其实从题目的限制范围来说,只需要使用MAP映射就可以完成,但边界与异常输入控制的并不完美
         Map<Integer, Integer> map = new HashMap<>();
         map.put(73, 1);
         map.put(86, 5);
