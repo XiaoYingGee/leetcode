@@ -1,4 +1,4 @@
-package com.xiaoyingge.algorithm;
+package com.xiaoyingge.algorithm.part1;
 
 /**
  * 编写一个函数来查找字符串数组中的最长公共前缀。

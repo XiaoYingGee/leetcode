@@ -1,4 +1,4 @@
-package com.xiaoyingge.algorithm;
+package com.xiaoyingge.algorithm.part1;
 
 import java.util.ArrayList;
 import java.util.List;

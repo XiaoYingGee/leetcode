@@ -1,4 +1,4 @@
-package com.xiaoyingge.algorithm;
+package com.xiaoyingge.algorithm.part1;
 
 /**
  * 首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。接下来的转化规则如下：
