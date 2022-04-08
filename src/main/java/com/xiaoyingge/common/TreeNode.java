@@ -22,5 +22,22 @@ public class TreeNode {
         this.left = left;
         this.right = right;
     }
+
+    public TreeNode(int val, int left) {
+        this.val = val;
+        this.left = new TreeNode(left);
+
+    }
+
+    public TreeNode(int val, Integer left, Integer right) {
+        this.val = val;
+        this.left = left == null ? null : new TreeNode(left);
+        this.right = right == null ? null : new TreeNode(right);
+    }
+
+    @Override
+    public String toString() {
+        return val + " ";
+    }
 }
 
