@@ -1,8 +1,10 @@
 package com.xiaoyingge.algorithm.part01;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author XiaoYingGee
@@ -84,9 +86,97 @@ public class Question0079 {
                 new char[]{'s', 'f', 'e', 's'},
                 new char[]{'a', 'd', 'e', 'e'}
         };
-        boolean abccseed = new Question0079().exist(chars, "abceseeefs");
-        System.out.println(-2147483648);
-        System.out.println(Integer.MIN_VALUE);
+        boolean abccseed = new Question0079().exist2(chars, "abceseeefs");
+        System.out.println(abccseed);
+
+    }
+
+    public boolean exist2(char[][] board, String word) {
+        if (word == null || board == null || board.length == 0 || board[0].length == 0 || word.length() > board.length * board[0].length) {
+            return false;
+        }
+
+        int rowLength = board.length;
+        int colLength = board[0].length;
+        Map<Character, List<Node>> map = new HashMap<>();
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                char c = board[i][j];
+                Node node = new Node(i, j);
+                if (map.containsKey(c)) {
+                    List<Node> nodes = map.get(c);
+                    nodes.add(node);
+                    map.put(c, nodes);
+                } else {
+                    List<Node> list = new ArrayList<>();
+                    list.add(node);
+                    map.put(c, list);
+                }
+            }
+        }
+        boolean[][] cache = new boolean[rowLength][colLength];
+        return process(map, word, 0, cache, null);
+    }
+
+    public boolean process(Map<Character, List<Node>> map, String word, int index, boolean[][] cache,
+            Node pre) {
+        if (index == word.length()) {
+            return true;
+        }
+        char cur = word.charAt(index);
+        List<Node> list = map.get(cur);
+        if (list == null) {
+            return false;
+        }
+        for (Node node : list) {
+            if (!isConnected(node, pre)) {
+                continue;
+            }
+            cache[node.x][node.y] = true;
+
+            List<Node> copy = copyAndRemove(list, node);
+            map.put(cur, copy);
+            boolean result = process(map, word, index + 1, cache, node);
+            if (result) {
+                return true;
+            }
+            map.put(cur, list);
+            cache[node.x][node.y] = false;
+        }
+        return false;
+
+    }
+
+    public List<Node> copyAndRemove(List<Node> list, Node remove) {
+        List<Node> newList = new ArrayList();
+        for (Node node : list) {
+            if (node == remove) {
+                continue;
+            }
+            newList.add(node);
+        }
+        return newList;
+    }
+
+    public boolean isConnected(Node node, Node pre) {
+        if (pre == null) {
+            return true;
+        }
+        if (Math.abs(node.x - pre.x) == 1 && node.y == pre.y) {
+            return true;
+        }
+        return Math.abs(node.y - pre.y) == 1 && node.x == pre.x;
+    }
+
+    public class Node {
+
+        int x;
+        int y;
+
+        Node(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 
 }

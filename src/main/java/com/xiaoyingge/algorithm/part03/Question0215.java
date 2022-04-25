@@ -65,6 +65,7 @@ public class Question0215 {
     public static void main(String[] args) {
         int kthLargest = new Question0215().findKthLargest(new int[]{3, 2, 1, 5, 6, 4}, 6);
         System.out.println(kthLargest);
+        System.out.println('a' + "" + 'b');
     }
 
 }

@@ -11,66 +11,120 @@ public class Question0146 {
 
     static class LRUCache {
 
-        private int less;
-        private int index;
-        private Map<Integer, Integer> valueMap;
-        private Map<Integer, Integer> indexMap;
-        private Map<Integer, Integer> reIndexMap;
         private int limit;
+        private Map<Integer, Node> nodeMap;
+        private Node head;
+        private Node tail;
 
         public LRUCache(int capacity) {
-            valueMap = new HashMap<>(capacity);
-            indexMap = new HashMap<>(capacity);
-            reIndexMap = new HashMap<>(capacity);
-            index = 0;
-            less = 0;
-            limit = capacity;
+            this.limit = capacity;
+            this.nodeMap = new HashMap<>();
+            this.head = new Node();
+            this.tail = new Node();
+            this.head.next = tail;
+            this.tail.pre = head;
         }
 
         public int get(int key) {
-            if (!valueMap.containsKey(key)) {
+            if (limit == 0) {
                 return -1;
             }
-            Integer oldIndex = indexMap.get(key);
-            reIndexMap.remove(oldIndex);
-            if (oldIndex == less) {
-                less++;
+            if (nodeMap.containsKey(key)) {
+                updateNode(key, nodeMap.get(key).val);
+                return nodeMap.get(key).val;
             }
-            indexMap.put(key, index);
-            reIndexMap.put(index++, key);
-            return valueMap.get(key);
-
+            return -1;
         }
 
         public void put(int key, int value) {
-            if (valueMap.size() == limit) {
-                Integer lessKey = reIndexMap.get(less);
-                if (!valueMap.containsKey(key)) {
-                    valueMap.remove(lessKey);
-                    indexMap.remove(lessKey);
-                    reIndexMap.remove(less++);
-                } else {
-                    Integer oldIndex = indexMap.get(key);
-                    if (oldIndex == less) {
-                        less++;
-                    }
-                }
+            if (limit == 0) {
+                return;
             }
-            valueMap.put(key, value);
-            reIndexMap.remove(indexMap.get(key));
-            indexMap.put(key, index);
-            reIndexMap.put(index++, key);
+            //检查是否已存在，存在更新
+            if (nodeMap.containsKey(key)) {
+                updateNode(key, value);
+            } else if (nodeMap.size() < limit) {
+                addNode(key, value);
+            } else {
+                removeOld();
+                addNode(key, value);
+            }
+        }
+
+        private void updateNode(int key, int value) {
+            Node cur = nodeMap.get(key);
+            cur.val = value;
+            Node pre = cur.pre;
+            Node next = cur.next;
+            pre.next = next;
+            next.pre = pre;
+
+            Node headNext = head.next;
+            head.next = cur;
+            cur.pre = head;
+            cur.next = headNext;
+            headNext.pre = cur;
+        }
+
+        private void addNode(int key, int value) {
+            Node node = new Node(key, value);
+            nodeMap.put(key, node);
+            Node next = head.next;
+            next.pre = node;
+            node.next = next;
+            head.next = node;
+            node.pre = head;
+        }
+
+        private void removeOld() {
+            if (limit == 0) {
+                return;
+            }
+            if (nodeMap.isEmpty()) {
+                return;
+            }
+            Node old = tail.pre;
+            Node oldPre = old.pre;
+            nodeMap.remove(old.key);
+            old.pre = null;
+            old.next = null;
+            oldPre.next = tail;
+            tail.pre = oldPre;
+        }
+
+    }
+
+    private static class Node {
+
+        private int key;
+        private int val;
+        private Node pre;
+        private Node next;
+
+        public Node() {
+        }
+
+        public Node(int key, int val) {
+            this.key = key;
+            this.val = val;
+        }
+
+        @Override
+        public String toString() {
+            return this.key + " : " + this.val;
         }
     }
 
     public static void main(String[] args) {
         LRUCache obj = new LRUCache(2);
-        obj.put(2, 1);
-        obj.put(1, 1);
-        obj.put(2, 3);
-        obj.put(4, 1);
+        obj.put(1, 11);
+        obj.put(2, 22);
         System.out.println(obj.get(1));
+        obj.put(3, 33);
         System.out.println(obj.get(2));
-
+        obj.put(4, 44);
+        System.out.println(obj.get(1));
+        System.out.println(obj.get(3));
+        System.out.println(obj.get(4));
     }
 }

@@ -19,6 +19,7 @@ public class Question0113 {
             return Collections.emptyList();
         }
         List<List<Integer>> result = new ArrayList<>();
+        List<String> nodes = new ArrayList<>();
         process(root, targetSum, new ArrayList<>(), result);
         return result;
     }
