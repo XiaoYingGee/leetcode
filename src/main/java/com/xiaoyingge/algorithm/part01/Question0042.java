@@ -73,8 +73,36 @@ public class Question0042 {
     }
 
     public static void main(String[] args) {
-        int[] nums = new int[]{0, 4, 2, 0, 3, 2, 5, 0, 0, 3};
+        int[] nums = new int[]{2, 4, 4, 5, 6, 7, 3, 5, 6, 7};
         int trap = new Question0042().trap2(nums);
-        System.out.println(trap);
+        int trap2 = new Question0042().trap3(nums);
+        System.out.println(trap + "," + trap2);
+    }
+
+    public int trap3(int[] height) {
+        if (height == null || height.length <= 2) {
+            return 0;
+        }
+        int left = 0;
+        int right = height.length - 1;
+        int leftMax = 0;
+        int rightMax = 0;
+        int ans = 0;
+        while (left <= right) {
+            if (height[left] >= height[right]) {
+                if (height[right] < rightMax) {
+                    ans += rightMax - height[right];
+                }
+                rightMax = Math.max(rightMax, height[right]);
+                right--;
+            } else {
+                if (height[left] < leftMax) {
+                    ans += leftMax - height[left];
+                }
+                leftMax = Math.max(leftMax, height[left]);
+                left++;
+            }
+        }
+        return ans;
     }
 }

@@ -65,13 +65,29 @@ public class Question0053 {
         Question0053 question0053 = new Question0053();
         for (int i = 0; i < 100; i++) {
             int[] randomArray = NumUtil.createRandomArray(NumUtil.random(10), true, 100);
-            int r = question0053.maxSubArray(randomArray);
-            int dp = question0053.dp(new int[]{56, 96, 55, 36, 19, -32});
+            int r = question0053.maxSubArray2(randomArray);
+            int dp = question0053.dp(randomArray);
             if (r != dp) {
                 System.out.println(r + "," + dp);
                 PrintUtil.print(randomArray);
             }
         }
+
+    }
+
+    public int maxSubArray2(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0];
+        }
+
+        int pre = nums[0];
+        int max = pre;
+        for (int i = 1; i < nums.length; i++) {
+            int cur = nums[i] + (pre > 0 ? pre : 0);
+            max = Math.max(max, cur);
+            pre = cur;
+        }
+        return max;
 
     }
 

@@ -66,4 +66,5 @@ public class Question0236 {
         TreeNode root = new TreeNode(3, left, right);
         new Question0236().lowestCommonAncestor(root, left, right);
     }
+    
 }

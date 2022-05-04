@@ -11,6 +11,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class PrintUtil {
 
+    public static void print(Integer[] arr) {
+        System.out.println(Arrays.stream(arr).collect(Collectors.toList()));
+    }
+
     public static void print(int[] arr) {
         System.out.println(Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.toList()));
     }
